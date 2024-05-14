@@ -6,7 +6,7 @@
 #    By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 12:47:35 by cgaratej          #+#    #+#              #
-#    Updated: 2024/05/14 12:59:04 by cgaratej         ###   ########.fr        #
+#    Updated: 2024/05/14 17:14:30 by cgaratej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,12 @@ ORANGE=\033[33m
 RED = \033[1;91m
 NONE=\033[0m
 
-SRC=
+SRC= src/main.c src/utils.c
 
-SRC_BONUS= 
+#SRC_BONUS= 
 
 OBJ = $(SRC:.c=.o)
-OBJ_BONUS = $(SRC_BONUS:.c=.o)
+#OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
@@ -40,9 +40,9 @@ $(NAME): libft $(OBJ) $(INCLUDE)
 	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(PRINTF) $(OBJ) -o $(NAME)
 	@echo "\n$(LGREEN)Create $(NAME) ✔\n$(NONE)"
 
-bonus: libft minilib $(INCLUDE) $(OBJ_BONUS)
-	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(PRINTF) $(OBJ_BONUS) -o $(NAME)
-	@echo "\n$(LGREEN)Create $(NAME) bonus ✔\n$(NONE)"
+#bonus: libft minilib $(INCLUDE) $(OBJ_BONUS)
+#	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(PRINTF) $(OBJ_BONUS) -o $(NAME)
+#	@echo "\n$(LGREEN)Create $(NAME) bonus ✔\n$(NONE)"
 
 %.o: %.c $(INCLUDE)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -64,4 +64,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re libft bonus
+.PHONY: all clean fclean re libft
