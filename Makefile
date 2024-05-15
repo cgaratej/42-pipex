@@ -6,14 +6,14 @@
 #    By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 12:47:35 by cgaratej          #+#    #+#              #
-#    Updated: 2024/05/14 17:14:30 by cgaratej         ###   ########.fr        #
+#    Updated: 2024/05/15 15:34:44 by cgaratej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-IBFT = utils/libft/libft.a
-GET_NEX_LINE= utils/libft/get_next_line/libftget_next_line.a
-PRINTF= utils/libft/ft_printf/libftprintf.a
-LIBFT_MAKE = make --no-print-directory -C utils/libft
+LIBFT = libft/libft.a
+GET_NEX_LINE= libft/get_next_line/libftget_next_line.a
+PRINTF= libft/ft_printf/libftprintf.a
+LIBFT_MAKE = make --no-print-directory -C libft
 
 NAME = pipex
 CFLAGS = -Wall -Werror -Wextra
