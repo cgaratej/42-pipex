@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:00:50 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/15 16:25:47 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:12:19 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,22 @@ int	open_file(char *file, int infile)
 	return (fd);
 }
 
+void	free_paths(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (path)
+	{
+		while (path[i])
+		{
+			free(path[i]);
+			i++;
+		}
+		free(path);
+	}
+}
+
 static char	*get_env(char **env)
 {
 	int	i;
@@ -86,9 +102,12 @@ char	*get_path(char *cmd, char **env)
 		path_final = ft_strjoin(path, cmd);
 		if (!path_final)
 			print_error("command not found\n", 0, 127);
-		ft_putstr_fd(path_final, 0);
-		ft_putchar_fd('\n', 0);
+		free(path);
+		if (!access(path_final, X_OK | F_OK))
+			return (path_final);
+		free(path_final);
 		i++;
 	}
-	return (NULL);
+	free_paths(path_list);
+	return (cmd);
 }

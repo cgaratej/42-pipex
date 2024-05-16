@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:25:05 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/15 15:56:24 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:57:34 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 void	print_error(char *str, int per, int ex);
 int		open_file(char *file, int infile);
 char	*get_path(char *cmd, char **env);
+void	free_paths(char **path);
 
 #endif
