@@ -6,7 +6,7 @@
 #    By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 12:47:35 by cgaratej          #+#    #+#              #
-#    Updated: 2024/05/16 13:15:01 by cgaratej         ###   ########.fr        #
+#    Updated: 2024/05/21 11:57:49 by cgaratej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBFT_MAKE = make --no-print-directory -C libft
 NAME = pipex
 CFLAGS = -Wall -Werror -Wextra
 INCLUDE = Makefile includes/*
-CC = gcc -g
+CC = gcc -g 
 RM = rm -f
 
 GREEN=\033[0;32m

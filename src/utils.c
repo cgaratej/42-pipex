@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:00:50 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/16 16:12:19 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:07:26 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,14 @@ void	free_paths(char **path)
 	int	i;
 
 	i = 0;
-	while (path)
+
+	while (path[i])
 	{
-		while (path[i])
-		{
-			free(path[i]);
-			i++;
-		}
-		free(path);
+		free(path[i]);
+		i++;
 	}
+	free(path);
+
 }
 
 static char	*get_env(char **env)

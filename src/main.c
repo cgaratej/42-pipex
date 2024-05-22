@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/16 16:07:41 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:42:41 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ int	main(int argc, char **argv, char **env)
 
 static void	son(char **argv, int *fd, char **env)
 {
-	int	fd_c;
+	int	fd_s;
 
 	close(fd[0]);
-	fd_c = open_file(argv[1], 1);
-	if (dup2(fd_c, STDIN_FILENO) == -1)
-		print_error("error failed to redirect stdout\n", 1, 2);
+	fd_s = open_file(argv[1], 1);
+	if (dup2(fd_s, STDIN_FILENO) == -1)
+		print_error("error failed to redirect stdout", 1, 2);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		print_error("error failed to redirect stdin", 1, 2);
+	close(fd_s);
 	exec_cmd(argv[2], env);
-	close(fd_c);
 }
 
 static void	father(char **argv, int *fd, char **env)
@@ -60,11 +60,11 @@ static void	father(char **argv, int *fd, char **env)
 	close(fd[1]);
 	fd_p = open_file(argv[4], 0);
 	if (dup2(fd_p, STDOUT_FILENO) == -1)
-		print_error("error failed to redirect stdout\n", 1, 2);
+		print_error("error failed to redirect stdout", 1, 2);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
-		print_error("error failed to redirect stdin\n", 1, 2);
-	exec_cmd(argv[3], env);
+		print_error("error failed to redirect stdin", 1, 2);
 	close(fd_p);
+	exec_cmd(argv[3], env);
 }
 
 static void	exec_cmd(char *cmd, char **env)
@@ -76,10 +76,10 @@ static void	exec_cmd(char *cmd, char **env)
 	if (!cmd_l)
 		print_error("command not found\n", 0, 127);
 	path = get_path(cmd_l[0], env);
-	ft_putstr_fd(cmd_l[0], 0);
 	if (execve(path, cmd_l, env) == -1)
 	{
-		free_paths(cmd_l);
-		print_error("comand not fond\n", 0, 127);
+		free_paths(cmd_l); 
+		print_error("command not found\n", 0, 127);
 	}
+	free_paths(cmd_l);
 }
