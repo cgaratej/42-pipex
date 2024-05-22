@@ -9,6 +9,7 @@
 *.out
 *.exe
 pipex
+pipex_bonus
 inf
 out
 

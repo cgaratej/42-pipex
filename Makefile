@@ -6,7 +6,7 @@
 #    By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 12:47:35 by cgaratej          #+#    #+#              #
-#    Updated: 2024/05/22 16:07:10 by cgaratej         ###   ########.fr        #
+#    Updated: 2024/05/22 16:57:11 by cgaratej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ GET_NEX_LINE= libft/get_next_line/libftget_next_line.a
 LIBFT_MAKE = make --no-print-directory -C libft
 
 NAME = pipex
+NAME_BONUS = pipex_bonus
 CFLAGS = -Wall -Werror -Wextra
 INCLUDE = Makefile includes/*
 CC = gcc -g 
@@ -28,7 +29,7 @@ NONE=\033[0m
 
 SRC= src/main.c src/utils.c
 
-SRC_BONUS= src/main_bonus.c src/utils_bonus.c
+SRC_BONUS= src_bonus/main_bonus.c src_bonus/utils_bonus.c
 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
@@ -40,8 +41,8 @@ $(NAME): libft $(OBJ) $(INCLUDE)
 	@echo "\n$(LGREEN)Create $(NAME) ✔\n$(NONE)"
 
 bonus: libft $(INCLUDE) $(OBJ_BONUS)
-	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(OBJ_BONUS) -o $(NAME)
-	@echo "\n$(LGREEN)Create $(NAME) bonus ✔\n$(NONE)"
+	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(OBJ_BONUS) -o $(NAME_BONUS)
+	@echo "\n$(LGREEN)Create $(NAME_BONUS) ✔\n$(NONE)"
 
 %.o: %.c $(INCLUDE)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -58,6 +59,7 @@ clean:
 	
 fclean: clean
 	@$(RM) $(NAME)
+	@$(RM) $(NAME_BONUS)
 	@$(LIBFT_MAKE) fclean
 	@echo "$(RED)$(NAME) Deleted$(NONE)"
 

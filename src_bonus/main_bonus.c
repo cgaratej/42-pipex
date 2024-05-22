@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/22 12:42:41 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:53:09 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,40 @@ static void	exec_cmd(char *cmd, char **env);
 
 int	main(int argc, char **argv, char **env)
 {
+	int		i;
+
+	i = 2;
+	if (argc < 5)
+		print_error("./pipex file1 cmd cmd .. file2\n", 0, 2);
+	while (i < argc - 2)
+		generate_pipe(argv[i++], env);
+	return (0);
+}
+
+static void	generate_pipe(char *cmd, char **env)
+{
 	int		fd[2];
 	pid_t	pid;
 	int		status;
 
-	if (argc != 5)
-		print_error("./pipex file1 cmd cmd file2\n", 0, 2);
 	if (pipe(fd) == -1)
 		print_error("error in pipe", 1, 2);
 	pid = fork();
 	if (pid == -1)
 		print_error("error in fork", 1, 2);
 	if (!pid)
-		son(argv, fd, env);
+	{
+		close(fd[0]);
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			print_error("error failed to redirect stdout", 1, 2);
+		exec_cmd(cmd, env);
+	}
 	wait(&status);
 	if (pid)
-		father(argv, fd, env);
-	return (0);
-}
-
-static void	son(char **argv, int *fd, char **env)
-{
-	int	fd_s;
-
-	close(fd[0]);
-	fd_s = open_file(argv[1], 1);
-	if (dup2(fd_s, STDIN_FILENO) == -1)
-		print_error("error failed to redirect stdout", 1, 2);
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		print_error("error failed to redirect stdin", 1, 2);
-	close(fd_s);
-	exec_cmd(argv[2], env);
+	{
+		close(fd[1]);
+		//if ()
+	}
 }
 
 static void	father(char **argv, int *fd, char **env)
