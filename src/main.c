@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/22 12:42:41 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:02:05 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	exec_cmd(char *cmd, char **env)
 	path = get_path(cmd_l[0], env);
 	if (execve(path, cmd_l, env) == -1)
 	{
-		free_paths(cmd_l); 
+		free_paths(cmd_l);
 		print_error("command not found\n", 0, 127);
 	}
 	free_paths(cmd_l);
