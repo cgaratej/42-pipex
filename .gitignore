@@ -9,6 +9,8 @@
 *.out
 *.exe
 pipex
+inf
+out
 
 # Temp files
 *.swp
