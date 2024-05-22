@@ -11,8 +11,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-PRINTF_MAKE= make --no-print-directory -C ft_printf
-
 GET_NEX_LINE_MAKE= make --no-print-directory -C get_next_line
 
 NAME=libft.a
@@ -39,17 +37,13 @@ OBJ=$(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): printf get_next_line $(OBJ) $(INCLUDE)
+$(NAME): get_next_line $(OBJ) $(INCLUDE)
 	@$(LIB) $(NAME) $(OBJ)
 	@echo "\n$(LGREEN)Create $(NAME) ✔$(NONE)"
 
 %.o: %.c $(INCLUDE)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 	@echo "$(GREEN)File $< compiled ✔$(NONE)"
-
-printf:
-	@echo "$(ORANGE)\nCompilando ft_printf$(NONE)"
-	@$(PRINTF_MAKE)
 
 get_next_line:
 	@echo "$(ORANGE)\nCompilando get_next_line$(NONE)"
@@ -68,4 +62,4 @@ fclean: clean
 
 re:	fclean all
 
-.PHONY: all clean fclean re printf get_next_line
+.PHONY: all clean fclean re get_next_line

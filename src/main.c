@@ -6,12 +6,10 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/22 16:02:05 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:06:03 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//ps lf || ps lp id
-//kill -9
 #include "../includes/pipex.h"
 
 static void	son(char **argv, int *fd, char **env);
