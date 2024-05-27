@@ -52,11 +52,9 @@ get_next_line:
 clean:
 	@$(RM) $(OBJ)
 	@$(GET_NEX_LINE_MAKE) clean
-	@$(PRINTF_MAKE) clean
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(PRINTF_MAKE) fclean
 	@$(GET_NEX_LINE_MAKE) fclean
 	@echo "$(RED)$(NAME) Deleted$(NONE)"
 
