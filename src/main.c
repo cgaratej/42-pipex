@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/22 16:06:03 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:11:18 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ static void	exec_cmd(char *cmd, char **env)
 	if (execve(path, cmd_l, env) == -1)
 	{
 		free_paths(cmd_l);
-		print_error("command not found\n", 0, 127);
+		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd("\n", 2);
+		exit(127);
 	}
 	free_paths(cmd_l);
 }

@@ -6,11 +6,11 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:00:50 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/24 14:59:43 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:45:14 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 void	print_error(char *str, int per, int ex)
 {
@@ -26,30 +26,29 @@ void	print_error(char *str, int per, int ex)
 	}
 }
 
-int	open_file(char *file, int infile)
+int	open_file(char *file, int option, char *file2)
 {
 	int	fd;
+	int	fd_i;
 
-	if (infile)
+	if (option)
 	{
-		fd = open(file, O_RDONLY, 0644);
-		if (access(file, R_OK))
+		fd_i = open(file2, O_RDONLY, 0777);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (access(file2, R_OK))
 		{
-			if (fd == -1)
-				print_error("infile", 1, 1);
+			if (fd_i == -1)
+				print_error("error open file", 1, 2);
 			print_error("permission denied\n", 0, 126);
 		}
+		if (dup2(fd_i, STDIN_FILENO) == -1)
+			print_error("error failed to redirect stdin", 1, 2);
+		close(fd_i);
 	}
 	else
-	{
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (access(file, W_OK))
-		{
-			if (fd == -1)
-				print_error("outfile", 1, 1);
-			print_error("permission denied\n", 0, 126);
-		}
-	}
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+		print_error("error open file", 1, 2);
 	return (fd);
 }
 
