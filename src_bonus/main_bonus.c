@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/27 12:12:58 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:12:38 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,27 @@
 
 static void	generate_pipe(char *cmd, char **env);
 static void	exec_cmd(char *cmd, char **env);
+static void	here_doc(char **argv);
+static void	here_doc_child(int *fd, char **argv);
 
 int	main(int argc, char **argv, char **env)
 {
 	int		i;
 	int		fd;
 
-	i = 2;
 	if (argc < 5)
 		print_error("./pipex file1 cmd cmd .. file2\n", 0, 2);
-	fd = open_file(argv[argc - 1], 1, argv[1]);
+	i = 2;
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+	{
+		if (argc < 6)
+			print_error("./pipex here_doc LIMITER cmd cmd .. file2\n", 0, 2);
+		i = 3;
+		fd = open_file(argv[argc - 1], 0, NULL);
+		here_doc(argv);
+	}
+	else
+		fd = open_file(argv[argc - 1], 1, argv[1]);
 	while (i < argc - 2)
 		generate_pipe(argv[i++], env);
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -78,4 +89,42 @@ static void	exec_cmd(char *cmd, char **env)
 		exit(127);
 	}
 	free_paths(cmd_l);
+}
+
+static void	here_doc(char **argv)
+{
+	int		fd[2];
+	pid_t	pid;
+
+	if (pipe(fd) == -1)
+		print_error("error in pipe", 1, 2);
+	pid = fork();
+	if (pid == -1)
+		print_error("error in fork", 1, 2);
+	if (!pid)
+		here_doc_child(fd, argv);
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		wait(NULL);
+	}
+}
+
+static void	here_doc_child(int *fd, char **argv)
+{
+	char	*line;
+
+	close(fd[0]);
+	while (1)
+	{
+		line = get_next_line(0);
+		if (ft_strncmp(line, argv[2], ft_strlen(argv[2])) == 0)
+		{
+			free(line);
+			exit(0);
+		}
+		ft_putstr_fd(line, fd[1]);
+		free(line);
+	}
 }
