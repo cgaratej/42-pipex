@@ -6,13 +6,13 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:00:50 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/22 11:07:26 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 10:47:00 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	print_error(char *str, int per, int ex)
+void	print_error(char *str, int per, int ex, char *cmd)
 {
 	if (per)
 	{
@@ -21,6 +21,13 @@ void	print_error(char *str, int per, int ex)
 	}
 	else
 	{
+		if (ex == 127)
+		{
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd("\n", 2);
+			exit(ex);
+		}
 		ft_putstr_fd(str, 2);
 		exit(ex);
 	}
@@ -36,8 +43,8 @@ int	open_file(char *file, int infile)
 		if (access(file, R_OK))
 		{
 			if (fd == -1)
-				print_error("infile", 1, 1);
-			print_error("permission denied\n", 0, 126);
+				print_error("infile", 1, 1, NULL);
+			print_error("permission denied\n", 0, 126, NULL);
 		}
 	}
 	else
@@ -46,8 +53,8 @@ int	open_file(char *file, int infile)
 		if (access(file, W_OK))
 		{
 			if (fd == -1)
-				print_error("outfile", 1, 1);
-			print_error("permission denied\n", 0, 126);
+				print_error("outfile", 1, 1, NULL);
+			print_error("permission denied\n", 0, 126, NULL);
 		}
 	}
 	return (fd);
@@ -92,15 +99,15 @@ char	*get_path(char *cmd, char **env)
 	i = 0;
 	path_list = ft_split(get_env(env), ':');
 	if (!path_list)
-		print_error("command not found\n", 0, 127);
+		print_error("pipex: command not found: ", 0, 127, cmd);
 	while (path_list[i])
 	{
 		path = ft_strjoin(path_list[i], "/");
 		if (!path)
-			print_error("command not found\n", 0, 127);
+			print_error("pipex: command not found: ", 0, 127, cmd);
 		path_final = ft_strjoin(path, cmd);
 		if (!path_final)
-			print_error("command not found\n", 0, 127);
+			print_error("pipex: command not found: ", 0, 127, cmd);
 		free(path);
 		if (!access(path_final, X_OK | F_OK))
 			return (path_final);

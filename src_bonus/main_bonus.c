@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/27 15:12:38 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 10:43:54 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ int	main(int argc, char **argv, char **env)
 	int		fd;
 
 	if (argc < 5)
-		print_error("./pipex file1 cmd cmd .. file2\n", 0, 2);
+		print_error("./pipex file1 cmd cmd .. file2\n", 0, 2, NULL);
 	i = 2;
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 	{
 		if (argc < 6)
-			print_error("./pipex here_doc LIMITER cmd cmd .. file2\n", 0, 2);
+			print_error("./pipex here_doc LIMITER cmd cmd .. file2\n",\
+			0, 2, NULL);
 		i = 3;
 		fd = open_file(argv[argc - 1], 0, NULL);
 		here_doc(argv);
@@ -38,7 +39,7 @@ int	main(int argc, char **argv, char **env)
 	while (i < argc - 2)
 		generate_pipe(argv[i++], env);
 	if (dup2(fd, STDOUT_FILENO) == -1)
-		print_error("error failed to redirect stdout", 1, 2);
+		print_error("error failed to redirect stdout", 1, 2, NULL);
 	exec_cmd(argv[argc - 2], env);
 	close(fd);
 	return (0);
@@ -51,15 +52,15 @@ static void	generate_pipe(char *cmd, char **env)
 	int		status;
 
 	if (pipe(fd) == -1)
-		print_error("error in pipe", 1, 2);
+		print_error("error in pipe", 1, 2, NULL);
 	pid = fork();
 	if (pid == -1)
-		print_error("error in fork", 1, 2);
+		print_error("error in fork", 1, 2, NULL);
 	if (!pid)
 	{
 		close(fd[0]);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			print_error("error failed to redirect stdout", 1, 2);
+			print_error("error failed to redirect stdout", 1, 2, NULL);
 		exec_cmd(cmd, env);
 	}
 	wait(&status);
@@ -67,7 +68,7 @@ static void	generate_pipe(char *cmd, char **env)
 	{
 		close(fd[1]);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
-			print_error("error failed to redirect stdin\n", 1, 2);
+			print_error("error failed to redirect stdin\n", 1, 2, NULL);
 	}
 }
 
@@ -78,15 +79,12 @@ static void	exec_cmd(char *cmd, char **env)
 
 	cmd_l = ft_split(cmd, ' ');
 	if (!cmd_l)
-		print_error("command not found\n", 0, 127);
+		print_error("pipex: command not found: ", 0, 127, cmd);
 	path = get_path(cmd_l[0], env);
 	if (execve(path, cmd_l, env) == -1)
 	{
 		free_paths(cmd_l);
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd("\n", 2);
-		exit(127);
+		print_error("pipex: command not found: ", 0, 127, cmd);
 	}
 	free_paths(cmd_l);
 }
@@ -97,10 +95,10 @@ static void	here_doc(char **argv)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		print_error("error in pipe", 1, 2);
+		print_error("error in pipe", 1, 2, NULL);
 	pid = fork();
 	if (pid == -1)
-		print_error("error in fork", 1, 2);
+		print_error("error in fork", 1, 2, NULL);
 	if (!pid)
 		here_doc_child(fd, argv);
 	else
