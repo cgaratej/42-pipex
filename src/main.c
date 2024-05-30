@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/30 14:08:40 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:15:18 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	main(int argc, char **argv, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
-	int		status;
 
 	if (argc != 5)
 		print_error("./pipex file1 cmd cmd file2\n", 0, 2, NULL);
@@ -33,7 +32,6 @@ int	main(int argc, char **argv, char **env)
 		son(argv, fd, env);
 	if (pid)
 		father(argv, fd, env);
-	wait(&status);
 	return (0);
 }
 
