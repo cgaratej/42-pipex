@@ -6,7 +6,7 @@
 #    By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 12:47:35 by cgaratej          #+#    #+#              #
-#    Updated: 2024/05/22 16:57:11 by cgaratej         ###   ########.fr        #
+#    Updated: 2024/05/30 11:39:57 by cgaratej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ LIBFT_MAKE = make --no-print-directory -C libft
 NAME = pipex
 NAME_BONUS = pipex_bonus
 CFLAGS = -Wall -Werror -Wextra
-INCLUDE = Makefile includes/*
 CC = gcc -g 
 RM = rm -f
 
@@ -28,24 +27,29 @@ RED = \033[1;91m
 NONE=\033[0m
 
 SRC= src/main.c src/utils.c
+DPES= src/main.c src/utils.c 
 
 SRC_BONUS= src_bonus/main_bonus.c src_bonus/utils_bonus.c
+DPES_BONUS= src_bonus/main_bonus.c src_bonus/utils_bonus.c
 
 OBJ = $(SRC:.c=.o)
+DEPS = $(SRC:.c=.d)
+
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
+DEPS_BONUS = $(SRC_BONUS:.c=.d)
 
 all: $(NAME)
 
-$(NAME): libft $(OBJ) $(INCLUDE)
+$(NAME): libft $(OBJ)
 	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(OBJ) -o $(NAME)
 	@echo "\n$(LGREEN)Create $(NAME) ✔\n$(NONE)"
 
-bonus: libft $(INCLUDE) $(OBJ_BONUS)
+bonus: libft $(OBJ_BONUS) 
 	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(OBJ_BONUS) -o $(NAME_BONUS)
 	@echo "\n$(LGREEN)Create $(NAME_BONUS) ✔\n$(NONE)"
 
-%.o: %.c $(INCLUDE)
-	@$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c Makefile
+	@$(CC) $(CFLAGS) -c $< -MMD -o $@
 	@echo "$(LGREEN)File $< compiled ✔$(NONE)"
 
 libft:
@@ -53,9 +57,10 @@ libft:
 	@$(LIBFT_MAKE)
 
 clean:
-	@$(RM) $(OBJ) $(OBJ_BONUS)
+	@$(RM) $(OBJ) $(OBJ_BONUS) $(DEPS) $(DEPS_BONUS)
 	@$(LIBFT_MAKE) clean
 	@echo "$(RED)Deleted .o files$(NONE)"
+	@echo "$(RED)Deleted .d files$(NONE)"
 	
 fclean: clean
 	@$(RM) $(NAME)
@@ -64,5 +69,7 @@ fclean: clean
 	@echo "$(RED)$(NAME) Deleted$(NONE)"
 
 re: fclean all
+
+-include $(DEPS) $(DEPS_BONUS)
 
 .PHONY: all clean fclean re libft

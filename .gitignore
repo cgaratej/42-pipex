@@ -4,6 +4,7 @@
 # Object files
 *.o
 *.a
+*.d
 
 # Executables
 *.out
