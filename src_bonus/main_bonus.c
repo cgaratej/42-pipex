@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/30 10:43:54 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 11:12:17 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **env)
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 	{
 		if (argc < 6)
-			print_error("./pipex here_doc LIMITER cmd cmd .. file2\n",\
+			print_error("./pipex here_doc LIMITER cmd cmd .. file2\n", \
 			0, 2, NULL);
 		i = 3;
 		fd = open_file(argv[argc - 1], 0, NULL);
