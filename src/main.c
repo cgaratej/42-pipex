@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/30 10:48:50 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:08:40 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	main(int argc, char **argv, char **env)
 		print_error("error in fork", 1, 2, NULL);
 	if (!pid)
 		son(argv, fd, env);
-	wait(&status);
 	if (pid)
 		father(argv, fd, env);
+	wait(&status);
 	return (0);
 }
 
@@ -45,9 +45,9 @@ static void	son(char **argv, int *fd, char **env)
 	fd_s = open_file(argv[1], 1);
 	if (dup2(fd_s, STDIN_FILENO) == -1)
 		print_error("error failed to redirect stdout", 1, 2, NULL);
+	close(fd_s);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		print_error("error failed to redirect stdin", 1, 2, NULL);
-	close(fd_s);
 	exec_cmd(argv[2], env);
 }
 
@@ -59,9 +59,10 @@ static void	father(char **argv, int *fd, char **env)
 	fd_p = open_file(argv[4], 0);
 	if (dup2(fd_p, STDOUT_FILENO) == -1)
 		print_error("error failed to redirect stdout", 1, 2, NULL);
+	close(fd_p);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
 		print_error("error failed to redirect stdin", 1, 2, NULL);
-	close(fd_p);
+	close(fd[0]);
 	exec_cmd(argv[3], env);
 }
 

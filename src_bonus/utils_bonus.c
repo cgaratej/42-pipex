@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:00:50 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/30 10:46:54 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:07:08 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*get_path(char *cmd, char **env)
 	path_list = ft_split(get_env(env), ':');
 	if (!path_list)
 		print_error("pipex: command not found: ", 0, 127, cmd);
-	while (path_list[i])
+	while (path_list[i] && !ft_strchr(cmd, '/'))
 	{
 		path = ft_strjoin(path_list[i], "/");
 		if (!path)

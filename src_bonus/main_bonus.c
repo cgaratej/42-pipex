@@ -6,7 +6,7 @@
 /*   By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:02:18 by cgaratej          #+#    #+#             */
-/*   Updated: 2024/05/30 11:12:17 by cgaratej         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:08:28 by cgaratej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ static void	generate_pipe(char *cmd, char **env)
 			print_error("error failed to redirect stdout", 1, 2, NULL);
 		exec_cmd(cmd, env);
 	}
-	wait(&status);
 	if (pid)
 	{
 		close(fd[1]);
 		if (dup2(fd[0], STDIN_FILENO) == -1)
 			print_error("error failed to redirect stdin\n", 1, 2, NULL);
 	}
+	wait(&status);
 }
 
 static void	exec_cmd(char *cmd, char **env)
