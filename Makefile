@@ -6,7 +6,7 @@
 #    By: cgaratej <cgaratej@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/14 12:47:35 by cgaratej          #+#    #+#              #
-#    Updated: 2024/05/30 11:39:57 by cgaratej         ###   ########.fr        #
+#    Updated: 2024/06/03 21:15:40 by cgaratej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,11 +41,11 @@ DEPS_BONUS = $(SRC_BONUS:.c=.d)
 all: $(NAME)
 
 $(NAME): libft $(OBJ)
-	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(GET_NEX_LINE) -o $(NAME)
 	@echo "\n$(LGREEN)Create $(NAME) ✔\n$(NONE)"
 
 bonus: libft $(OBJ_BONUS) 
-	@$(CC) $(CFLAGS) $(LIBFT) $(GET_NEX_LINE) $(OBJ_BONUS) -o $(NAME_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBFT) $(GET_NEX_LINE) -o $(NAME_BONUS)
 	@echo "\n$(LGREEN)Create $(NAME_BONUS) ✔\n$(NONE)"
 
 %.o: %.c Makefile
